@@ -14,16 +14,23 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
-        // Do any additional setup after loading the view.
-        let fm = FileManager.default
-        let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path)
         
-        for item in items {
-            if item.hasPrefix("nssl") {
-                pictures.append(item)
-                pictures.sort()
-                print(pictures)
+        DispatchQueue.global().async {
+            let fm = FileManager.default
+            let path = Bundle.main.resourcePath!
+            let items = try! fm.contentsOfDirectory(atPath: path)
+            
+            for item in items {
+                if item.hasPrefix("nssl") {
+                    self.pictures.append(item)
+                }
+            }
+            // Сортировка и обновление UI на главном потоке
+            self.pictures.sort()
+            print("Pictures loaded: \(self.pictures)") // Проверка загрузки
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData() // Обновление таблицы после завершения загрузки
             }
         }
     }
