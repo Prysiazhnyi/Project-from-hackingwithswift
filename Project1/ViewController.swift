@@ -39,7 +39,13 @@ class ViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)
-        cell.textLabel?.text = pictures[indexPath.row]
+      
+        // Основной текст
+                cell.textLabel?.text = pictures[indexPath.row]
+                
+                // Подзаголовок для каждой строки
+                cell.detailTextLabel?.text = "Описание для \(pictures[indexPath.row])"  // Пример текста подзаголовка
+        
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -53,5 +59,6 @@ class ViewController: UITableViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
 }
 
